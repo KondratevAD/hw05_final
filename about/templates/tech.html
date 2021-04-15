@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Об авторе проекта{% endblock %}
+{% block content %}
+
+{% load user_filters %}
+  <main role="main" class="container">
+    <div class="row">
+      <!-- Левый вспомогательный блок -->
+      <div class="col-md-4 mb-3 mt-1">
+        <div class="card">
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="h3">
+                  Технологии
+                </div> 
+              </li>
+              <li class="list-group-item">
+                <div class="h6 text-muted">
+                  <p align="justify" style="text-indent: 20px;">Сайт разработан на фрейворке Django v2.2.6 одним юным подаваном, под чутким присмотром сильных мира сего.</p> 
+                  <p align="justify" style="text-indent: 20px;">Всю красоту оформления помог создать Bootstrap v4.3.1 и один человек который разбирается как заставить Bootstrap выдавать красоту.</p> 
+                </div>
+              </li>
+            </ul>                                               
+          </div>                    
+        </div>                
+      </div>
+      <!-- Тело страницы -->
+      <div class="col-md-8">
+        <div class="card-body">                    
+          
+          {% load static %}
+          
+            <img src="{% static 'image/1.png' %}">
+        </div>                    
+        </div>                
+      </div>            
+    </div>        
+  </main>
+{% endblock %} 

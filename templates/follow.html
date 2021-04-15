@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+
+
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}
+Посты на которые вы подписаны
+{% endblock %}
+
+{% block header %}
+Посты на которые вы подписаны
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    {% include 'include/menu.html' with index=True %}
+
+
+
+    {% for post in page %}
+    {% include 'include/post_item.html' with post=post %}
+    {% endfor %}
+
+    {% include 'include/paginator.html' %}
+</div>
+{% endblock %}
+
+
+</html>

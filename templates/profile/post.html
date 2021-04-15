@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+
+
+{% extends "base.html" %}
+
+{% load thumbnail %}
+{% block title %}
+Пост пользователя
+{% endblock %}
+
+{% block header %}
+<div class="text-center">Пост пользователя {{ author.username }}</div>
+{% endblock %}
+
+{% block content %}
+
+</html>
+
+<main role="main" class="container">
+        <div class="row">
+                <div class="col-md-3 mb-3 mt-1">
+                        {% include 'include/card_user.html' %}
+                </div>
+                <div class="col-md-9">
+                        {% include 'include/post_item.html' with post=post %}
+                        {% include 'include/comments.html' %}
+                </div>
+        </div>
+        </div>
+</main>
+
+{% endblock %}
