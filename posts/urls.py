@@ -25,7 +25,6 @@ urlpatterns = [
         views.add_comment,
         name='add_comment'
     ),
-
     path(
         '<str:username>/follow/',
         views.profile_follow,
@@ -36,7 +35,6 @@ urlpatterns = [
         views.profile_unfollow,
         name='profile_unfollow'
     ),
-
 ]
 
 if settings.DEBUG:
