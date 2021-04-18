@@ -11,13 +11,25 @@ class Post(models.Model):
     )
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name='Автор'
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Автор'
     )
     group = models.ForeignKey(
-        'Group', on_delete=models.SET_NULL, blank=True, null=True,
-        verbose_name='Группа', help_text='Выберите группу.'
+        'Group',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name='Группа',
+        help_text='Выберите группу'
     )
-    image = models.ImageField(upload_to='posts/', blank=True, null=True)
+    image = models.ImageField(
+        upload_to='posts/',
+        blank=True,
+        null=True,
+        verbose_name='Изображение',
+        help_text='Загрузите изображение'
+    )
 
     def __str__(self) -> str:
         """Возвращает пост в удобоваримом виде
@@ -35,12 +47,14 @@ class Post(models.Model):
 
 class Group(models.Model):
     title = models.CharField(
-        'Заголовок', max_length=200,
+        'Заголовок',
+        max_length=200,
         help_text='Введите заголовок вашего поста.'
     )
     slug = models.SlugField('URL', unique=True)
     description = models.TextField(
-        'Описание', help_text='Введите описание вашего поста.'
+        'Описание',
+        help_text='Введите описание вашего поста.'
     )
 
     def __str__(self) -> str:
@@ -75,6 +89,18 @@ class Comment(models.Model):
     )
     created = models.DateTimeField('Дата комментария', auto_now_add=True)
 
+    def __str__(self) -> str:
+        """Возвращает текст комментария
+
+        Ключевой аргумент:
+        text -- Содержание комментария
+        """
+        return self.text
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
@@ -87,4 +113,9 @@ class Follow(models.Model):
         User,
         related_name='following',
         on_delete=models.CASCADE,
+        verbose_name='Подписант'
     )
+
+    class Meta:
+        verbose_name = 'Подписчик'
+        verbose_name_plural = 'Подписчики'

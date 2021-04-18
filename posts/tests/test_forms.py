@@ -3,14 +3,16 @@ import tempfile
 
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import Client, TestCase
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from posts.models import Group, Post, User
+from posts.forms import CommentForm
 
 from . import constants
 
 
+@override_settings(MEDIA_ROOT=(settings.BASE_DIR + '/media'))
 class YatubeCreateFormTests(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -87,6 +89,13 @@ class YatubeCreateFormTests(TestCase):
             author=self.user2,
             group=self.group,
         )
+        form_data = {}
+        self.authorized_client.post(
+            self.add_comment,
+            data=form_data,
+            follow=True,
+        )
+        post_comment_add_fail = Post.objects.all()[0].comments.count()
         form_data = {'text': 'TestComment'}
         post_comment = Post.objects.all()[0].comments.count()
         self.guest_client.post(
@@ -101,5 +110,34 @@ class YatubeCreateFormTests(TestCase):
             follow=True,
         )
         post_comment_add = Post.objects.all()[0].comments.count()
+        post = Post.objects.all()[0]
+        comment = post.comments.all()[0].text
+        self.assertEqual(post_comment, post_comment_add_fail)
         self.assertEqual(post_comment, post_comment_not_add)
         self.assertEqual(post_comment + 1, post_comment_add)
+        self.assertEqual(comment, 'TestComment')
+
+    def test_create_post_whit_not_image(self):
+        """Валидная форма не создает запись с текстовым файлом."""
+        posts_count = Post.objects.count()
+        text_file = SimpleUploadedFile(
+            name='text.txt',
+            content='',
+            content_type='text/plain'
+        )
+        form_data = {
+            'text': constants.text,
+            'group': self.group.id,
+            'image': text_file,
+        }
+        response = self.authorized_client.post(
+            constants.NEW_POST_PAGE,
+            data=form_data,
+            follow=True,
+        )
+        self.assertFormError(
+            response,
+            'form',
+            'image',
+            'Отправленный файл пуст.'
+        )

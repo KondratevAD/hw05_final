@@ -23,6 +23,8 @@ description_other = 'TestDescriptionOther'
 text = 'TestText'
 text_edit = 'TestTextEdit'
 text_other = 'TestTextOther'
+# Comment
+text_comment = 'TestComment'
 
 group_page = reverse('group', kwargs={'slug': slug})
 profile_page = reverse('profile', kwargs={'username': username})
@@ -34,10 +36,12 @@ PAGE_NOT_FOUND = reverse('group', kwargs={'slug': 'not_found'})
 field_verboses_Post = {
     'text': 'Содержание поста',
     'group': 'Группа',
+    'image': 'Изображение'
 }
 field_help_texts_Post = {
     'text': 'Введите содержание вашего поста.',
-    'group': 'Выберите группу.',
+    'group': 'Выберите группу',
+    'image': 'Загрузите изображение'
 }
 
 # Verbose name and help text Group
@@ -49,6 +53,22 @@ field_verboses_Group = {
 field_help_texts_Group = {
     'title': 'Введите заголовок вашего поста.',
     'description': 'Введите описание вашего поста.',
+}
+
+# Verbose name and help text Comment
+field_verboses_Comment = {
+    'post': 'Пост',
+    'author': 'Автор',
+    'text': 'Комментарий',
+}
+field_help_texts_Comment = {
+    'text': 'Введите ваш комментарий.',
+}
+
+# Verbose name Follow
+field_verboses_Follow = {
+    'user': 'Подписчик',
+    'author': 'Подписант',
 }
 
 small_gif = (

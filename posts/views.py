@@ -54,7 +54,7 @@ def new_post(request):
         Ключевые аргументы:
         PostForm -- класс формы
         """
-    form = PostForm(request.POST or None)
+    form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         post = form.save(commit=False)
         post.author = request.user
@@ -94,13 +94,11 @@ def post_view(request, username, post_id):
     author = User.objects.get(username__iexact=username)
     post = Post.objects.get(id=post_id)
     all_post = Post.objects.filter(author=author).all().count
-    comments = post.comments.all()
     form = CommentForm()
     return render(request, 'profile/post.html', {
         'post': post,
         'author': author,
         'all_post': all_post,
-        'comments': comments,
         'form': form,
     })
 
@@ -147,13 +145,13 @@ def server_error(request):
 
 @login_required
 def add_comment(request, username, post_id):
+    post = get_object_or_404(Post, id=post_id)
     form = CommentForm(request.POST or None)
     if form.is_valid():
         comment = form.save(commit=False)
         comment.author = request.user
         comment.post_id = post_id
         comment.save()
-        return redirect('post', username, post_id)
     return redirect('post', username, post_id)
 
 
@@ -173,18 +171,12 @@ def follow_index(request):
 def profile_follow(request, username):
     User = get_user_model()
     author = User.objects.get(username__iexact=username)
-    follow = Follow.objects.filter(
-        author=author,
-        user=request.user
-    ).exists()
-    if request.user.username != username and follow is False:
-        Follow.objects.create(
+    if request.user.username != username:
+        Follow.objects.get_or_create(
             author=author,
-            user=request.user,
+            user=request.user
         )
-
-        return redirect('profile', username)
-    return redirect('index')
+    return redirect('profile', username)
 
 
 @login_required

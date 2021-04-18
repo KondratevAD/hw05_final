@@ -1,7 +1,5 @@
-<!doctype html>
-<html>
 {% extends "base.html" %}
-{% load thumbnail %}
+
 {% block title %}
 Записи сообщества {{ group.title }}
 {% endblock %}
@@ -18,5 +16,3 @@
 {% endfor %}
 {% include 'include/paginator.html' %}
 {% endblock %}
-
-</html>

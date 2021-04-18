@@ -184,6 +184,7 @@ class YatubePagesTests(TestCase):
         self.assertEqual(posts_count, settings.PAGINATOR_PAGE)
 
     def test_cache_index_page(self):
+        """Кэш страницы index работает корректно"""
         response = self.authorized_client.get(constants.HOME_PAGE)
         context = response.content
         Post.objects.create(
