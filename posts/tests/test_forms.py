@@ -7,7 +7,6 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from posts.models import Group, Post, User
-from posts.forms import CommentForm
 
 from . import constants
 
@@ -119,7 +118,6 @@ class YatubeCreateFormTests(TestCase):
 
     def test_create_post_whit_not_image(self):
         """Валидная форма не создает запись с текстовым файлом."""
-        posts_count = Post.objects.count()
         text_file = SimpleUploadedFile(
             name='text.txt',
             content='',

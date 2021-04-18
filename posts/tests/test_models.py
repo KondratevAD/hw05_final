@@ -54,7 +54,9 @@ class YatubeModelTest(TestCase):
         for value, expected in constants.field_verboses_Comment.items():
             with self.subTest(value=value):
                 self.assertEqual(
-                    self.get_verbose_name_comment(value).verbose_name, expected)
+                    self.get_verbose_name_comment(value).verbose_name,
+                    expected
+                )
 
     def test_verbose_name_follow(self):
         """verbose_name в полях Follow совпадает с ожидаемым."""
